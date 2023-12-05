@@ -1,0 +1,42 @@
+html, body, #root {
+  height: 100%;
+}
+
+
+ul {
+  padding-inline-start: 20px;
+}
+
+li {
+  text-align: center;
+  padding: 6px;
+  list-style-type: none;
+}
+
+body {
+  font-family: "Open Sans";
+  font-weight: light;
+  word-spacing:1%;
+  background-color: #DEE2E6;
+}
+
+button {
+  text-align: center;
+  align-items: center;
+}
+
+.Board {
+  align-items: center;
+  text-align: center;
+}
+
+.board-row:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+.game-info {
+  margin-left: 2vw; /* Adjusted margin to be 2% of the viewport width */
+}
+
