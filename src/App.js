@@ -147,7 +147,7 @@ export default function Game() {
 
   // Commented out functionality to time-travel
 
-  function jumpTo(currentMove) {
+  /*  function jumpTo(currentMove) {
     setCurrentMove(currentMove);
   }
 
@@ -164,6 +164,7 @@ export default function Game() {
       </li>
     );
   });
+  */
 
   return (
     <>
