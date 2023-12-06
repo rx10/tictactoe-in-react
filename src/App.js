@@ -1,11 +1,16 @@
-import { useState } from "react";
-import { css } from "@emotion/react";
+import { useState, createContext, useContext, useEffect } from "react";
 import styled from "@emotion/styled";
 import cross from "./cross.png";
 import circle from "./circle.png";
 
+/* Creating a Context to store the current state of the Board and the move number. */
+export const SqsContext = createContext();
+
 /*------Demonstrating usage of emotion's styled components------*/
 
+/* Commented out styling of time-travel button */
+
+/*
 const Jump = styled.button`
   height: 60px;
   width: 300px;
@@ -18,6 +23,7 @@ const Jump = styled.button`
   border-radius: 10px;
   background-color: #212529;
 `;
+*/
 
 const Message = styled.div`
   font-weight: bold;
@@ -79,9 +85,14 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ squares, onPlay }) {
+function Board({ onPlay }) {
+  const { history, currentMove } = useContext(SqsContext);
+  const squares = history[currentMove];
+  const winner = calculateWinner(squares);
+  let message;
+
   function handleClick(i) {
-    if (calculateEnd(squares) || squares[i]) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
@@ -102,15 +113,17 @@ function Board({ squares, onPlay }) {
     sqs[n] = "O";
   }
 
-  const winner = calculateEnd(squares);
-  let message;
+  // Added tie functionality using the currentMove variable.
   if (winner) {
     if (winner === "X") {
       message = "You Win!";
     } else if (winner === "O") {
       message = "Oops, You lost. Better luck next time!";
     }
+  } else if (currentMove === 5) {
+    message = "Not bad, it's a Tie!";
   }
+
   return (
     <>
       <Message>{message}</Message>
@@ -136,8 +149,6 @@ function Board({ squares, onPlay }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const isPlayerX = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
 
   function onPlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -147,7 +158,8 @@ export default function Game() {
 
   // Commented out functionality to time-travel
 
-  /*  function jumpTo(currentMove) {
+  /*
+  function jumpTo(currentMove) {
     setCurrentMove(currentMove);
   }
 
@@ -164,24 +176,26 @@ export default function Game() {
       </li>
     );
   });
-  */
+*/
+
+  useEffect(() => {
+    console.log("UseEffect ran.");
+  });
 
   return (
-    <>
+    /* Using the context here for the Board component to use. */
+    <SqsContext.Provider value={{ history, currentMove }}>
       <Container>
         <Box>
-          <Board
-            isPlayerX={isPlayerX}
-            squares={currentSquares}
-            onPlay={onPlay}
-          />
+          <Board onPlay={onPlay} />
         </Box>
       </Container>
-    </>
+    </SqsContext.Provider>
   );
 }
 
-function calculateEnd(squares) {
+/* Function to calculate winner with hardcoded possibilites */
+function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
