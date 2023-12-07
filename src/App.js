@@ -8,10 +8,7 @@ export const SqsContext = createContext();
 
 /*------Demonstrating usage of emotion's styled components------*/
 
-/* Commented out styling of time-travel button */
-
-/*
-const Jump = styled.button`
+const Reset = styled.button`
   height: 60px;
   width: 300px;
   color: white;
@@ -23,7 +20,6 @@ const Jump = styled.button`
   border-radius: 10px;
   background-color: #212529;
 `;
-*/
 
 const Message = styled.div`
   font-weight: bold;
@@ -194,6 +190,7 @@ export default function Game() {
         <Box>
           <Board onPlay={onPlay} />
         </Box>
+        <Reset onClick={() => setCurrentMove(0)}>Reset</Reset>
       </Container>
     </SqsContext.Provider>
   );
