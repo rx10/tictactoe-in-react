@@ -103,6 +103,9 @@ function Board({ onPlay }) {
 
   // Function to randomly choose an empty position.
   function autoPlay(sqs) {
+    if (calculateWinner(sqs)) {
+      return;
+    }
     let empties = [];
     for (let x = 0; x < sqs.length; x++) {
       if (sqs[x] === null) {
