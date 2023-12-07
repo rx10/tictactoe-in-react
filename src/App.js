@@ -86,9 +86,9 @@ function Square({ value, onSquareClick }) {
 }
 
 function Board({ onPlay }) {
-  const { history, currentMove } = useContext(SqsContext);
+  const { history, currentMove, winner } = useContext(SqsContext);
   const squares = history[currentMove];
-  const winner = calculateWinner(squares);
+  console.log(winner);
   let message;
 
   function handleClick(i) {
@@ -150,6 +150,7 @@ function Board({ onPlay }) {
 }
 
 export default function Game() {
+  const [winner, setWinner] = useState(null);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
 
@@ -181,13 +182,14 @@ export default function Game() {
   });
 */
 
+  /* Checking whether anyone won everytime the history array changes using useEffect */
   useEffect(() => {
-    console.log("UseEffect ran.");
-  });
+    setWinner(calculateWinner(history[currentMove]));
+  }, [history]);
 
   return (
     /* Using the context here for the Board component to use. */
-    <SqsContext.Provider value={{ history, currentMove }}>
+    <SqsContext.Provider value={{ history, currentMove, winner }}>
       <Container>
         <Box>
           <Board onPlay={onPlay} />
