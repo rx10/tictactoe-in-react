@@ -1,7 +1,7 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import styled from "@emotion/styled";
-import cross from "./cross.png";
-import circle from "./circle.png";
+import cross from "./cross.svg";
+import circle from "./circle.svg";
 
 /* Creating a Context to store the current state of the Board and the move number. */
 export const SqsContext = createContext();
@@ -9,8 +9,8 @@ export const SqsContext = createContext();
 /*------Demonstrating usage of emotion's styled components------*/
 
 const Reset = styled.button`
-  height: 60px;
-  width: 300px;
+  height: 7.5%;
+  width: 35%;
   color: white;
   border: none;
   outline: none;
@@ -30,16 +30,14 @@ const Message = styled.div`
 
 const Button = styled.button`
   color: #edf5e1;
-  image-rendering: crisp-edges;
   align-items: center;
-  image-rendering: pixelated;
   text-align: center;
   aspect-ratio: 1;
   border: 2.5px solid #6c6d7c;
   float: left;
-  height: 180px; /* Adjusted height to be 6% of the viewport width */
+  height: 33.3%;
   margin: -1px -1px 0 0;
-  width: 180px;
+  width: 33.3%;
   background-color: #212529;
   border-radius: 7.5px;
 `;
@@ -56,6 +54,9 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
+  width: 75%;
+  aspect-ratio: 1;
+  height: auto;
   align-self: center;
   background: #6c757c;
   color: #fff;
@@ -124,7 +125,7 @@ function Board({ onPlay }) {
   }
 
   return (
-    <>
+    <div class="grid-container">
       <Message>{message}</Message>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -141,7 +142,7 @@ function Board({ onPlay }) {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -172,7 +173,7 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <Jump onClick={() => jumpTo(move)}>{description}</Jump>
+        <Reset onClick={() => jumpTo(move)}>{description}</Reset>
       </li>
     );
   });
